@@ -1,0 +1,59 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/**
+ * The palette follows the app, not the Docusaurus template.
+ *
+ * `#2563eb` and `#60a5fa` are the `--accent-color` of the reader's own Light
+ * and Dark themes (`apps/web/src/themes/{light,dark}/_vars.scss`). A
+ * documentation site in the template's green read as a different product from
+ * the blue application it documents. Keep these two in step with those files.
+ */
+:root {
+  --ifm-color-primary: #2563eb;
+  --ifm-color-primary-dark: #1d4fd7;
+  --ifm-color-primary-darker: #1c4bcb;
+  --ifm-color-primary-darkest: #173ea7;
+  --ifm-color-primary-light: #4479ee;
+  --ifm-color-primary-lighter: #5183ef;
+  --ifm-color-primary-lightest: #779ff3;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* Lighter in dark mode, for the same reason the app lightens its own accent. */
+[data-theme='dark'] {
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3f93f9;
+  --ifm-color-primary-darker: #2e8af8;
+  --ifm-color-primary-darkest: #0a6ede;
+  --ifm-color-primary-light: #81b7fb;
+  --ifm-color-primary-lighter: #92c0fc;
+  --ifm-color-primary-lightest: #c5dcfd;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/**
+ * Screenshots in the docs.
+ *
+ * The captures come in two very different shapes: desktop shots are 1440x900
+ * and landscape, phone shots are 393x852 and portrait. Scaled to the column
+ * width alone, the phone shots render more than three times taller than the
+ * desktop ones and swamp the page. Constraining the height as well as the
+ * width brings the two into roughly the same visual weight -- a landscape shot
+ * still fills the column, a portrait one settles at about the width of a real
+ * phone.
+ */
+.markdown img {
+  display: block;
+  max-width: 100%;
+  max-height: 34rem;
+  width: auto;
+  height: auto;
+  margin: 1.5rem auto;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 8px;
+}

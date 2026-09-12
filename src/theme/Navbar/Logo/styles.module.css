@@ -1,0 +1,40 @@
+/**
+ * Brand lockup for the navbar. Mirrors `header__wordmark` in the web app
+ * (`apps/web/src/styles/_header.scss`).
+ */
+
+.wordmark {
+  display: flex;
+  flex-direction: column;
+  /* Pull the two lines together so the pair reads as one mark rather than two
+     stacked labels. */
+  line-height: 1.05;
+  /* The stock navbar title carries `text--truncate`; keep the same behaviour so
+     a narrow viewport clips the mark instead of pushing the nav items out. */
+  min-width: 0;
+}
+
+.wordmarkName,
+.wordmarkDescriptor {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Weight only -- the size is inherited, which is what the stock `<b>` title
+   did, so the top line lands at the same scale it did before. */
+.wordmarkName {
+  font-weight: var(--ifm-font-weight-bold);
+}
+
+.wordmarkDescriptor {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-block-start: 2px;
+  /* Quiet enough to stay a subtitle while the name keeps the navbar's own
+     colour. Mixing the navbar link colour with transparent tracks both colour
+     modes from one rule, since that colour is itself theme-dependent. */
+  color: color-mix(in srgb, var(--ifm-navbar-link-color) 62%, transparent);
+}

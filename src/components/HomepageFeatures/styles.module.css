@@ -1,0 +1,29 @@
+.features {
+  display: flex;
+  align-items: center;
+  padding: 3rem 0;
+  width: 100%;
+}
+
+/**
+ * The icons are line drawings rather than the template's filled illustrations,
+ * so they need a ground to sit on; at 200px on bare white a 1.4-weight stroke
+ * reads as a stray pencil mark. A tinted disc gives each one weight without
+ * introducing a second colour.
+ */
+.featureIconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  margin-bottom: 0.75rem;
+  color: var(--ifm-color-primary);
+  background: color-mix(in srgb, var(--ifm-color-primary) 10%, transparent);
+}
+
+.featureIcon {
+  width: 64px;
+  height: 64px;
+}

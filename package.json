@@ -1,0 +1,66 @@
+{
+  "name": "bible-website",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Marketing site and public documentation for Bible Study (Docusaurus). Its own repository; the screenshot scripts drive the app repository, expected at ../bible or $BIBLE_REPO.",
+  "license": "GPL-3.0-or-later",
+  "author": "Peter Rankin <psrankin@outlook.com>",
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "typecheck": "tsc",
+    "branding:diff": "tsx scripts/branding-diff.ts",
+    "screenshots": "tsx scripts/capture-screenshots.ts",
+    "screenshots:check": "tsx scripts/capture-screenshots.ts --check",
+    "screenshots:embed": "tsx scripts/capture-screenshots.ts --embed",
+    "screenshots:desktop": "tsx scripts/capture-desktop-screenshots.ts",
+    "screenshots:desktop:check": "tsx scripts/capture-desktop-screenshots.ts --check",
+    "screenshots:desktop:embed": "tsx scripts/capture-desktop-screenshots.ts --embed",
+    "screenshots:desktop:list": "tsx scripts/capture-desktop-screenshots.ts --list"
+  },
+  "dependencies": {
+    "@docusaurus/core": "3.10.0",
+    "@docusaurus/faster": "3.10.0",
+    "@docusaurus/preset-classic": "3.10.0",
+    "@mdx-js/react": "^3.0.0",
+    "clsx": "^2.0.0",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "3.10.0",
+    "@docusaurus/tsconfig": "3.10.0",
+    "@docusaurus/types": "3.10.0",
+    "@types/react": "^19.0.0",
+    "playwright": "^1.48.0",
+    "tsx": "^4.19.0",
+    "typescript": "~6.0.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=20.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KeepThyHeart/bible-website.git"
+  }
+}

@@ -1,0 +1,39 @@
+.lead {
+  font-size: 1.15rem;
+  max-width: 46rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0 3rem;
+}
+
+.card,
+.cardHighlighted {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  padding: 1.5rem;
+  background: var(--ifm-background-surface-color);
+}
+
+/* The detected platform is emphasised, never isolated: the other cards keep
+   full contrast and the same actions, so a wrong guess costs nothing. */
+.cardHighlighted {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 1px var(--ifm-color-primary);
+}
+
+.file {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.note {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-800);
+}

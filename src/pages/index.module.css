@@ -1,0 +1,44 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+
+/**
+ * Second line of the hero brand lockup -- "Bible Reader" under "Keep Thy
+ * Heart". Same treatment as the navbar's wordmark and the web app's header:
+ * small, uppercase, widely tracked, so it reads as a descriptor of the name
+ * above rather than a continuation of it.
+ */
+.heroDescriptor {
+  display: block;
+  font-size: 0.32em;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  margin-block-start: 0.6rem;
+  /* The hero paints itself in `--ifm-color-primary`, which differs between the
+     light and dark modes, so a fixed tint would be short of contrast in one of
+     them. Fading the inherited hero text colour instead stays subordinate to
+     the name above and legible on both backgrounds. */
+  opacity: 0.82;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
