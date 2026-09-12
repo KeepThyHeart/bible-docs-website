@@ -1,6 +1,6 @@
 Bible App Documentation Website
 ===============================
-Marketing site and public documentation for the Keep Thy Heart Bible Reader apps (web, desktop), built with [Docusaurus](https://docusaurus.io/).
+Site for documenting the Keep Thy Heart Bible Reader apps (web, desktop), built with [Docusaurus](https://docusaurus.io/).  This will also include the download links in the future for the desktop apps.
 
 ## Setting Up Screenshots
 There is a screenshot script which takes screenshots of the real web and desktop apps.  Thus, to re-do these, you will need to set up the `KeepThyHeart/bible` repository, with enough modules for the screenshots to work properly.  The scripts look for the Bible repo in the following places:
