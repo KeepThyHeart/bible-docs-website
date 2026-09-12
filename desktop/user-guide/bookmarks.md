@@ -17,7 +17,7 @@ To bookmark a passage, select the range first: click the first verse, then shift
 
 You can right-click a verse or selected passage and choose the option to add it to your bookmarks. This menu can also move an existing bookmark; see [Moving a bookmark](#moving-a-bookmark).
 
-<!-- shot: bookmarks-toolbar-star — The Bible toolbar with the bookmark ribbon filled, and a bookmarked verse in the text -->
+![The Bible toolbar with the bookmark ribbon filled, and a bookmarked verse in the text](/img/desktop/bookmarks-toolbar-star.png)
 
 ## Going to a bookmark
 
@@ -25,7 +25,7 @@ Open the bookmark ribbon in the toolbar and click a bookmark. The Bible pane goe
 
 Bookmarked verses show a small red ribbon beside them in the text.
 
-<!-- shot: bookmarks-jump-list — The bookmark jump list open below the toolbar -->
+![The bookmark jump list open below the toolbar](/img/desktop/bookmarks-jump-list.png)
 
 ## Naming a bookmark
 
@@ -38,7 +38,7 @@ Right-click a verse and hover the command that adds it to your bookmarks. A subm
 - A **named** bookmark keeps its name. For example, a bookmark named *Where I'm reading in Romans* keeps that name and now points to Romans 9:1 instead of Romans 5:12.
 - An **unnamed** bookmark changes its label to the new reference.
 
-<!-- shot: bookmarks-replace-menu — The verse context menu showing existing bookmarks as replacement targets -->
+![The verse context menu showing existing bookmarks as replacement targets](/img/desktop/bookmarks-replace-menu.png)
 
 ## Managing bookmarks
 
@@ -51,7 +51,7 @@ Right-click a verse and hover the command that adds it to your bookmarks. A subm
 
 <kbd>Esc</kbd> cancels the edits and closes the dialog.
 
-<!-- shot: bookmarks-manage-dialog — The Manage Bookmarks dialog with several named and unnamed bookmarks -->
+![The Manage Bookmarks dialog with several named and unnamed bookmarks](/img/desktop/bookmarks-manage-dialog.png)
 
 ## Backups
 

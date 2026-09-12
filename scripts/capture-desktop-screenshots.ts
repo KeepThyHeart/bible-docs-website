@@ -453,11 +453,18 @@ async function seedPrayers(window: Page, listName: string, prayers: string[]): P
 
   for (const title of prayers) {
     await window.getByRole('button', { name: /New Prayer$/ }).first().click({ force: true });
-    const field = window.locator('[role="dialog"] input[type="text"]').first();
+    // Scoped to the dialog's overlay, as the app's own e2e suite does
+    // (apps/desktop/e2e/tests/notes.spec.ts): the prayer editor has a title
+    // input of its own, which an unscoped selector matches once one is open.
+    const field = window.locator('.fixed input[placeholder*="title"]').first();
     await field.waitFor({ state: 'visible', timeout: 15_000 });
+    await field.click({ force: true });
     await field.fill(title);
-    await field.press('Enter');
-    await window.waitForTimeout(900);
+    await window.locator('.fixed button:has-text("OK")').first().click({ force: true });
+    // The dialog closes only once the prayer is saved. A failed save leaves it
+    // open over an empty list — so wait for it to go, rather than sleeping and
+    // photographing whatever state the save left behind.
+    await field.waitFor({ state: 'detached', timeout: 15_000 });
   }
   await window.waitForTimeout(1_000);
 }
@@ -478,6 +485,19 @@ register('intro', 'intro-study-layout', async ({ window, cap, out, annotate }) =
     { selector: '[data-testid="study-pane"]', text: 'The study pane follows the verse you select', side: 'left' },
     { selector: '[data-testid="search-input"]', text: 'Search, navigate, and run commands', side: 'bottom' },
   ]);
+  await cap.full(out);
+});
+
+// The picture a README links to: as many features on screen at once as fit,
+// and never annotated, so it stands on its own outside these docs.
+register('intro', 'intro-overview', async ({ window, cap, out }) => {
+  await seedHighlights(window, [...VERSE_NUMBERS.john3OverviewHighlights]);
+  // Selected last: `selectVerse` centres its verse, which keeps 3:16 on screen
+  // with the highlighted verses either side of it.
+  await selectVerse(window, VERSE_NUMBERS.john3_16);
+  await expandStudySection(window, /Cross-?References/i);
+  await expandStudySection(window, /Topics/i);
+  await settle(window, '[data-testid="study-pane"]');
   await cap.full(out);
 });
 
@@ -629,8 +649,19 @@ register('bible-reading', 'bible-reading-parallel-view', async ({ window, cap, o
   const picker = window.locator('[data-testid="parallel-version-picker"]');
   await picker.waitFor({ state: 'visible', timeout: 20_000 });
   const selects = picker.locator('select');
-  await selects.nth(0).selectOption({ value: 'ASV' });
-  await selects.nth(1).selectOption({ value: 'BSB' });
+  // The options are whatever Bibles this data directory has installed, so
+  // prefer ASV and BSB but fall back to the first two that exist rather than
+  // timing out on a translation the machine never downloaded.
+  const installed = (await selects.nth(0).locator('option').evaluateAll(
+    (options) => options.map((o) => (o as HTMLOptionElement).value),
+  )).filter(Boolean);
+  const preferred = ['ASV', 'BSB'].filter((v) => installed.includes(v));
+  const columns = [...preferred, ...installed.filter((v) => !preferred.includes(v))].slice(0, 2);
+  if (columns.length < 2) {
+    throw new Error(`Parallel view needs two installed Bibles; found ${installed.join(', ') || 'none'}.`);
+  }
+  await selects.nth(0).selectOption({ value: columns[0] });
+  await selects.nth(1).selectOption({ value: columns[1] });
   // Escape *cancels* the picker, which is why pressing it left the pane in
   // ordinary single-translation mode. The comparison starts on Compare.
   await picker.getByRole('button', { name: /^Compare/ }).click({ force: true });

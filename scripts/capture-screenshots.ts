@@ -79,6 +79,7 @@
 import { chromium, type Browser, type BrowserContext, type Page } from 'playwright';
 import { spawn, type ChildProcess } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PlaceholderIndex } from './lib/placeholders';
@@ -163,6 +164,49 @@ const SCREENSHOT_SITE_CONFIG = {
   privacy: { mode: 'strict' },
 };
 
+/** The `modules` section of a site config: which modules the server lists. */
+type SiteModules = Record<string, {
+  modules: Record<string, { active: boolean; sortOrder: number }>;
+  sections: { title: string; modules: string[] }[];
+}>;
+
+/** Registry module types the site config governs, and the section each goes in. */
+const MODULE_SECTIONS: Record<string, { key: string; title: string }> = {
+  bible: { key: 'bibles', title: 'Translations' },
+  commentary: { key: 'commentaries', title: 'Commentaries' },
+  dictionary: { key: 'dictionaries', title: 'Dictionaries' },
+};
+
+/**
+ * A `modules` section switching on every Bible, commentary and dictionary the
+ * registry lists, in install order. Other types (topical indexes, cross
+ * references) are not governed by the config and are always served.
+ *
+ * Read with the web app's own `better-sqlite3-web`, resolved out of the app
+ * repository, so this package takes on no native dependency of its own.
+ */
+function modulesFromRegistry(mainDb: string): SiteModules {
+  const Database = createRequire(join(webPackage(), 'package.json'))('better-sqlite3-web');
+  const db = new Database(mainDb, { readonly: true, fileMustExist: true });
+  try {
+    const rows = db.prepare(
+      'SELECT module_type, abbreviation FROM module_metadata ORDER BY module_id',
+    ).all() as { module_type: string; abbreviation: string | null }[];
+
+    const result: SiteModules = {};
+    rows.forEach(({ module_type: type, abbreviation }, index) => {
+      const section = MODULE_SECTIONS[type];
+      if (!section || !abbreviation) return;
+      const config = result[section.key] ??= { modules: {}, sections: [{ title: section.title, modules: [] }] };
+      config.modules[abbreviation] = { active: true, sortOrder: index + 1 };
+      config.sections[0].modules.push(abbreviation);
+    });
+    return result;
+  } finally {
+    db.close();
+  }
+}
+
 function prepareDataDir(): DataPaths {
   const candidates = registryCandidates();
   const source = candidates.find((c) => {
@@ -200,21 +244,24 @@ function prepareDataDir(): DataPaths {
       // list of installed modules is of no consequence.
     }
   }
-  // Module visibility comes from the source directory's `settings.json`, which
-  // the config above deliberately does not define. Without it the server takes
-  // its fail-safe branch and shows no modules at all — every shot then captures
-  // an empty reading area, with one easily-missed line on the server's stdout
-  // as the only clue.
+  // Module visibility comes from the source directory's `settings.json` when it
+  // has one, which is why the config above does not define it. Without any
+  // module config the server takes its fail-safe branch and lists no modules —
+  // the translation picker then reads "No Bible modules available" — so a
+  // directory without one (what `npm run init` produces) gets every installed
+  // module switched on instead.
   const settings = join(source.dataDir, 'settings.json');
+  let modules: SiteModules | undefined;
   if (existsSync(settings)) {
     copyFileSync(settings, join(SCRATCH_DATA_DIR, 'settings.json'));
   } else {
-    console.warn(`[warn] no settings.json in ${source.dataDir} — the server may show no modules.`);
+    modules = modulesFromRegistry(join(SCRATCH_DATA_DIR, 'main.db'));
+    console.log(`No settings.json in ${source.dataDir}; showing every installed module.`);
   }
 
   writeFileSync(
     join(SCRATCH_DATA_DIR, 'site-config.json'),
-    JSON.stringify(SCREENSHOT_SITE_CONFIG, null, 2),
+    JSON.stringify({ ...SCREENSHOT_SITE_CONFIG, ...(modules && { modules }) }, null, 2),
     'utf-8',
   );
 
@@ -711,19 +758,21 @@ register('intro', 'mobile', 'intro-mobile-phone', async (page) => {
   await fullPage(page, 'intro-mobile-phone');
 });
 
-// ── getting-started/installation.md ────────────────────────────────────────
-
-registerManual('installation', 'desktop', 'installation-browser-prompt',
-  "the browser's own install button lives in the address bar, outside Playwright's reach");
-
-register('installation', 'desktop', 'installation-pwa-standalone', async (page) => {
-  // Approximates standalone mode: the app area with no browser chrome around it.
+// The picture a README links to: as many features on screen at once as fit,
+// and no callouts, so it stands on its own outside these docs.
+register('intro', 'desktop', 'intro-overview', async (page) => {
   await gotoChapter(page, WEB_CHAPTERS.john3);
-  await fullPage(page, 'installation-pwa-standalone');
+  await selectVerse(page, JOHN_3_16);
+  await openRightPaneTab(page, 'Study');
+  await expandStudySection(page, /Cross-References/);
+  await expandStudySection(page, /^Topics/);
+  await settlePane(page, '.study-pane');
+  // The click only scrolls the verse far enough to reach it, which can leave it
+  // on the bottom line. Centre it, so the passage around it shows too.
+  await page.locator(`[data-verse-id="${JOHN_3_16}"]`)
+    .evaluate((el) => el.scrollIntoView({ block: 'center' }));
+  await fullPage(page, 'intro-overview');
 });
-
-registerManual('installation', 'mobile', 'installation-pwa-homescreen',
-  'a real phone home screen; take it on a device');
 
 // ── getting-started/quick-start.md ─────────────────────────────────────────
 
@@ -941,12 +990,6 @@ register('copy-and-share', 'desktop', 'copy-dialog-open', async (page) => {
   await page.waitForSelector('.copy-dialog');
   await page.waitForTimeout(500); // let the preview fill in
   await captureLocator(page, '.copy-dialog', 'copy-dialog-open');
-});
-
-register('copy-and-share', 'desktop', 'verse-context-menu', async (page) => {
-  await gotoChapter(page, WEB_CHAPTERS.john3);
-  await page.locator(`[data-verse-id="${JOHN_3_16}"]`).click({ button: 'right' });
-  await captureLocator(page, '.verse-context-menu', 'verse-context-menu');
 });
 
 // ── user-guide/study-tools.md ──────────────────────────────────────────────

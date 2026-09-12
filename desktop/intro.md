@@ -8,13 +8,21 @@ title: Overview
 
 # {{productName}}
 
+> For the word of God is quick, and powerful, and sharper than any twoedged sword, piercing even to the dividing asunder of soul and spirit, and of the joints and marrow, and is a discerner of the thoughts and intents of the heart.
+>
+> — Hebrews 4:12 (KJV)
+
+Welcome to the {{productNameShort}} Bible app!
+
+![The desktop app with John 3:16 selected among highlighted verses, beside the study pane's cross-references and topics for that verse](/img/desktop/intro-overview.png)
+
 {{productName}} is a Bible study application for Windows, Mac, and Linux.  It's meant to run locally on your computer, so that you don't need an internet connection after you've installed the modules that you want.
 
 ![The app in its default Study Mode layout: the Bible pane on the left, study tabs on the right](/img/desktop/intro-study-layout.png)
 
 ## What you can do
 
-By default, on the left is the Bible text, and on the right is the study pane.  Study panes incldue things like commentaries, topics, cross-references, and Strong's lexicons.  You can also write your own notes about a verse or write lesson or sermon notes in the Write tab.  The study tabs follow along with the verse you have currently highlighted in the Bible pane.  You may have multiple passage tabs open at once.
+By default, on the left is the Bible text, and on the right is the study pane.  Study panes include things like commentaries, topics, cross-references, and Strong's lexicons.  You can also write your own notes about a verse or write lesson or sermon notes in the Write tab.  The study tabs follow along with the verse you have currently highlighted in the Bible pane.  You may have multiple passage tabs open at once.
 
 In the search box at the top, you may type a Bible reference or a term to search.  By default, it uses a traditional keyword search.  But if you install the package for ideas-based searching, then you can select this search type and search for an idea.  The computer is often able to match passages that are similar to what you mean, even if the wording is different.  For example, if you type "shepherd boy kills giant with a sling", it will find the passage about David and Goliath.
 

@@ -65,6 +65,8 @@ export const VERSE_NUMBERS = {
   john3_16: 16,
   /** Psalm 23:1, 2 and 4 — the verses the highlighting shot colours. */
   psalm23Highlights: [1, 2, 4],
+  /** John 3:14 and 17 — coloured in the overview shot, either side of the selected 3:16. */
+  john3OverviewHighlights: [14, 17],
 } as const;
 
 /** Bookmark text the shots type into the app. */

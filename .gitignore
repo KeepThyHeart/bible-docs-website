@@ -29,3 +29,8 @@ yarn-error.log*
 
 # Scratch output from probing the desktop app during capture development.
 /scratch-shots
+
+# Local-only files: the publish script (server login and paths) and the like.
+*.private.*
+*.ignore.*
+scratchpad

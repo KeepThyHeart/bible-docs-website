@@ -203,6 +203,12 @@ switches on every documented feature (Ideas Search, entity cards, offline
 downloads), and runs the server against that copy with `NO_AUTH=1`. Your own
 data directory is only ever read.
 
+Module visibility comes from that directory's `settings.json` when it has one.
+When it does not — and a directory produced by `npm run init` does not — the
+script writes a `modules` section listing every installed Bible, commentary and
+dictionary from the registry, because a server with no module config lists
+none at all.
+
 To shoot against a server you are already running, set `BIBLE_WEB_URL`. If that
 server is behind the shared-password gate, the script submits `SITE_PASSWORD`
 (default `bible3`) when it sees the login page.
@@ -211,10 +217,10 @@ server is behind the shared-password gate, the script submits `SITE_PASSWORD`
 BIBLE_WEB_URL=http://localhost:3100 SITE_PASSWORD=... npm run screenshots
 ```
 
-Two shots — the browser's install prompt and the PWA icon on a phone home
-screen — are browser and OS chrome, outside Playwright's reach. They are
-registered as `manual` and print a note instead of capturing; take them by hand
-and drop them into `static/img/web/` under the same filenames.
+A shot of browser or OS chrome (outside Playwright's reach) can be registered
+with `registerManual`, which prints a note instead of capturing; take it by
+hand and drop it into `static/img/web/` under the same filename. None are
+registered at present.
 
 `--embed` only replaces a placeholder whose PNG actually exists, so the docs
 never end up pointing at a missing image.

@@ -8,7 +8,15 @@ title: Bible Study on the Web
 
 # {{productName}} for the Web
 
-{{productName}} for the Web is a Bible reading and study app that runs in your browser.s
+> For the word of God is quick, and powerful, and sharper than any twoedged sword, piercing even to the dividing asunder of soul and spirit, and of the joints and marrow, and is a discerner of the thoughts and intents of the heart.
+>
+> — Hebrews 4:12 (KJV)
+
+Welcome to the {{productNameShort}} Bible app!
+
+![The web app with John 3:16 selected, beside the Study panel's cross-references and topics for that verse](/img/web/intro-overview.png)
+
+{{productName}} for the Web is a Bible reading and study app that runs in your browser.
 
 ![The full app in desktop layout: Bible text on the left, study and commentary panels on the right, header visible](/img/web/intro-desktop-layout.png)
 
